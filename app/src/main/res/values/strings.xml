@@ -2,7 +2,7 @@
     <string name="app_name">VacancyViewerApp</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="button_search">Начните поиск</string>
+    <string name="button_search">Показать вакансии</string>
     <string name="period">Выберите период</string>
     <string name="area_for_search">Искать в подробном описании</string>
     <string name="keywords_for_search">Введите ключевые слова для поиска:</string>

@@ -88,7 +88,7 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView {
         Bundle args = new Bundle();
         SearchFragment fragment = new SearchFragment();
         fragment.setArguments(args);
-        Log.e(TAG, "getInstance:  showVacancyList");
+        Log.e(TAG, "getInstance");
         return fragment;
     }
 
@@ -116,7 +116,7 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView {
 
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         ButterKnife.bind(this, view);
-        Log.e(TAG, "onCreateView:  showVacancyList");
+        Log.e(TAG, "onCreateView");
         Toast.makeText(getContext(), "onCreateView", Toast.LENGTH_SHORT).show();
         return view;
     }
@@ -132,9 +132,7 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView {
 
         mSearchPresenter.onViewCreated(textChanges(keywords), checkedChanges(radioButton), textChanges(minSalary), textChanges(city));
 
-        //Disposable disposable
-
-        Log.e(TAG, "onViewCreated:  showVacancyList");
+        Log.e(TAG, "onViewCreated");
     }
 
     @OnClick(R.id.activity_main_button_search)

@@ -61,19 +61,7 @@ public class SearchPresenter extends MvpPresenter<SearchView> {
 
     public void onSearchButtonPressed() {
 
-        Log.e(TAG, "requestForData");
-        mVacancyInteractor.getVacancies(new DisposableSingleObserver<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if (aBoolean) mRouter.navigateTo(Screens.VACANCY_LIST_SCREEN);
-                    //getViewState().showVacancyList();
-                Log.e(TAG, "onSuccess:  getViewState: showVacancies");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.e(TAG, String.valueOf(e));
-            }
-        });
+        Log.e(TAG, "ShowData");
+        mRouter.navigateTo(Screens.VACANCY_LIST_SCREEN);
     }
 }

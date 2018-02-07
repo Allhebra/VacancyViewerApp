@@ -6,8 +6,8 @@ import com.bereg.vacancyviewerapp.Util;
 import com.bereg.vacancyviewerapp.api.NgsApi;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -32,6 +32,7 @@ public class VacancyInteractor {
     private List<Vacancy> vacancies = new ArrayList<>();
     private String minSalary;
     private String keywords;
+    private String string;
 
     public VacancyInteractor(NgsApi ngsApi) {
         this.ngsApi = ngsApi;
@@ -44,41 +45,27 @@ public class VacancyInteractor {
                                   Observable<CharSequence> cityObservable,
                                   final DisposableSingleObserver<List<Vacancy>> disposableSingleObserver) {
 
-        keywordsObservable.subscribe(new Consumer<CharSequence>() {
+        keywordsObservable.debounce(300, TimeUnit.MILLISECONDS)
+                .subscribe(new Consumer<CharSequence>() {
             @Override
             public void accept(CharSequence charSequence) throws Exception {
                 keywords = charSequence.toString();
+                Log.e(TAG, "tag" + keywords);
+                getShortObservableData(disposableSingleObserver);
             }
         });
 
-        booleanObservable.map(new Function<Boolean, String>() {
+        booleanObservable.debounce(300, TimeUnit.MILLISECONDS)
+                .subscribe(new Consumer<Boolean>() {
             @Override
-            public String apply(Boolean aBoolean) throws Exception {
+            public void accept(Boolean aBoolean) throws Exception {
                 if (aBoolean) {
-                    return DESCRIPTION;
-                }else return "";
+                    string = DESCRIPTION;
+                } else string = "";
+                Log.e(TAG, "tag" + string);
+                getShortObservableData(disposableSingleObserver);
             }
-        })
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(String s) throws Exception {
-                        ngsApi.getShortObservableData(HEADER, s)
-                                .subscribe(new Consumer<VacancyList>() {
-                                    @Override
-                                    public void accept(VacancyList vacancyList) throws Exception {
-                                        vacancies = Util.searchOccurence(vacancyList.getVacancies(), keywords);
-                                    }
-                                });
-                    }
-                });
-    }
-
-
-
-    public void getInfo(Observable<CharSequence> keywordsObservable,
-                        Observable<CharSequence> minSalaryObservable,
-                        Observable<CharSequence> cityObservable,
-                        final DisposableSingleObserver<List<Vacancy>> disposableSingleObserver) {
+        });
 
         minSalaryObservable.skipWhile(new Predicate<CharSequence>() {
             @Override
@@ -88,23 +75,31 @@ public class VacancyInteractor {
             }
         })
                 .subscribe(new Consumer<CharSequence>() {
-            @Override
-            public void accept(CharSequence charSequence) throws Exception {
-                minSalary = charSequence.toString();
-                vacancies.clear();
-                getVacancies(new DisposableSingleObserver<Boolean>() {
                     @Override
-                    public void onSuccess(Boolean aBoolean) {
-                        if (aBoolean) disposableSingleObserver.onSuccess(vacancies);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
+                    public void accept(CharSequence charSequence) throws Exception {
+                        minSalary = charSequence.toString();
+                        getShortObservableData(disposableSingleObserver);
                     }
                 });
-            }
-        });
+    }
+
+    private void getShortObservableData(final DisposableSingleObserver<List<Vacancy>> disposableSingleObserver) {
+        Log.e(TAG, "111");
+        ngsApi.getShortObservableData(HEADER, string, MIN_SALARY, MAX_SALARY, minSalary)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<VacancyList>() {
+                    @Override
+                    public void onSuccess(VacancyList vacancyList) {
+                        Log.e(TAG, "222");
+                        vacancies = Util.searchOccurence(vacancyList.getVacancies(), keywords);
+                        disposableSingleObserver.onSuccess(vacancies);
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, e.toString());
+                    }
+                });
     }
 
     public void getVacancies(final DisposableSingleObserver<Boolean> disposableSingleObserver) {

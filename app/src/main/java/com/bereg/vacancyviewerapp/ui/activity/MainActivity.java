@@ -1,7 +1,5 @@
 package com.bereg.vacancyviewerapp.ui.activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,14 +15,12 @@ import com.bereg.vacancyviewerapp.R;
 import com.bereg.vacancyviewerapp.Screens;
 import com.bereg.vacancyviewerapp.presentation.presenter.MainPresenter;
 import com.bereg.vacancyviewerapp.presentation.view.MainView;
-import com.bereg.vacancyviewerapp.ui.fragment.BaseFragment;
 import com.bereg.vacancyviewerapp.ui.fragment.SearchFragment;
 import com.bereg.vacancyviewerapp.ui.fragment.VacancyListFragment;
 
 import butterknife.ButterKnife;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.Router;
-import ru.terrakok.cicerone.android.SupportAppNavigator;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
 public class MainActivity extends MvpAppCompatActivity implements MainView {

@@ -1,7 +1,10 @@
 package com.bereg.vacancyviewerapp;
 
+import android.util.Log;
+
 import com.bereg.vacancyviewerapp.model.Vacancy;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -10,12 +13,18 @@ import java.util.List;
 
 public class Util {
 
+    private static final String TAG = Util.class.getSimpleName();
+
     public static List<Vacancy> searchOccurence(List<Vacancy> list, String keywords) {
 
-        for (Vacancy v : list) {
-            if (!v.getHeader().contains(keywords) && !v.getDescription().contains(keywords)) {
-                list.remove(v);
-            }
+        Log.e(TAG, "Util");
+        if (keywords.equals("")) return list;
+        Iterator<Vacancy> iterator = list.iterator();
+
+        while (iterator.hasNext()) {
+            Vacancy vacancy = iterator.next();
+            if (!vacancy.getHeader().contains(keywords) && !vacancy.getDescription().contains(keywords)) iterator.remove();
+            Log.e(TAG, "UtilElse");
         }
         return list;
     }

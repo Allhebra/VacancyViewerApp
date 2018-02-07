@@ -24,5 +24,8 @@ public interface NgsApi {
 
     @GET("vacancies/?fields=")
     Single<VacancyList> getShortObservableData(@Query("header") String header,
-                                               @Query("description") String description);
+                                               @Query("description") String description,
+                                               @Query("salary_min") String minSalary,
+                                               @Query("salary_max") String maxSalary,
+                                               @Query("salary") String salary);
 }
