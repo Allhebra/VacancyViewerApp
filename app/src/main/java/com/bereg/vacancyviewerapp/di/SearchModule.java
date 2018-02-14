@@ -11,14 +11,5 @@ import io.reactivex.functions.Consumer;
 @Module
 public class SearchModule {
 
-    @Provides
-    @SearchFragmentScope
-    Consumer<CharSequence> provideConsumer() {
-        return  new Consumer<CharSequence>() {
-            @Override
-            public void accept(CharSequence charSequence) throws Exception {
 
-            }
-        };
-    }
 }

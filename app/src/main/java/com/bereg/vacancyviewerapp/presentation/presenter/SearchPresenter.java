@@ -6,8 +6,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.bereg.vacancyviewerapp.Screens;
 import com.bereg.vacancyviewerapp.model.Vacancy;
-import com.bereg.vacancyviewerapp.model.VacancyInteractor;
-import com.bereg.vacancyviewerapp.model.VacancyList;
+import com.bereg.vacancyviewerapp.model.interactor.VacancyInteractor;
 import com.bereg.vacancyviewerapp.presentation.view.SearchView;
 
 import java.util.List;
@@ -28,15 +27,12 @@ public class SearchPresenter extends MvpPresenter<SearchView> {
 
     public VacancyInteractor mVacancyInteractor;
     private Router mRouter;
-    public Consumer<CharSequence> mConsumer;
 
-    public SearchPresenter(VacancyInteractor vacancyInteractor, Router router, Consumer<CharSequence> consumer) {
+    public SearchPresenter(VacancyInteractor vacancyInteractor, Router router) {
 
         mVacancyInteractor = vacancyInteractor;
         mRouter = router;
-        mConsumer = consumer;
 
-        //mRouter.navigateTo(Screens.SEARCH_SCREEN);
         Log.e(TAG, "SearchPresenterCreated");
         Log.e(TAG, "interactor: " + String.valueOf(mVacancyInteractor));
     }
@@ -44,9 +40,16 @@ public class SearchPresenter extends MvpPresenter<SearchView> {
     public void onViewCreated(Observable<CharSequence> keywordsObservable,
                               Observable<Boolean> booleanObservable,
                               Observable<CharSequence> minSalaryObservable,
-                              Observable<CharSequence> cityObservable) {
+                              Observable<CharSequence> cityObservable,
+                              Observable<Boolean> saveResultsObservable) {
 
-        mVacancyInteractor.requestDataHandle(keywordsObservable, booleanObservable, minSalaryObservable, cityObservable, new DisposableSingleObserver<List<Vacancy>>() {
+        mVacancyInteractor.requestDataHandle(
+                keywordsObservable,
+                booleanObservable,
+                minSalaryObservable,
+                cityObservable,
+                saveResultsObservable,
+                new DisposableSingleObserver<List<Vacancy>>() {
             @Override
             public void onSuccess(List<Vacancy> vacancies) {
                 getViewState().showShortSearchResult(vacancies.size());

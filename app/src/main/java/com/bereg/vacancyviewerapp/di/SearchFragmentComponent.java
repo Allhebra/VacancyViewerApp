@@ -11,5 +11,4 @@ import io.reactivex.functions.Consumer;
 @Subcomponent(modules = {SearchModule.class})
 public interface SearchFragmentComponent {
 
-    Consumer<CharSequence> getConsumer();
 }

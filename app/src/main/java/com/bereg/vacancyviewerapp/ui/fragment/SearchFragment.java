@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -23,7 +24,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bereg.vacancyviewerapp.App;
 import com.bereg.vacancyviewerapp.R;
 import com.bereg.vacancyviewerapp.di.AppComponent;
-import com.bereg.vacancyviewerapp.model.VacancyInteractor;
+import com.bereg.vacancyviewerapp.model.interactor.VacancyInteractor;
 import com.bereg.vacancyviewerapp.presentation.presenter.SearchPresenter;
 import com.bereg.vacancyviewerapp.presentation.view.SearchView;
 
@@ -34,9 +35,9 @@ import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 import ru.terrakok.cicerone.Router;
 
-import static com.jakewharton.rxbinding2.widget.RxTextView.afterTextChangeEvents;
+import static com.jakewharton.rxbinding2.widget.RxCheckedTextView.check;
+import static com.jakewharton.rxbinding2.widget.RxCompoundButton.checked;
 import static com.jakewharton.rxbinding2.widget.RxTextView.textChanges;
-import static com.jakewharton.rxbinding2.widget.RxTextView.textChangeEvents;
 import static com.jakewharton.rxbinding2.widget.RxCompoundButton.checkedChanges;
 
 /**
@@ -60,10 +61,9 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView {
     SearchPresenter provideSearchPresenter() {
         AppComponent appComponent = App.getAppComponent();
         VacancyInteractor vacancyInteractor = appComponent.getVacancyInteractor();
-        Consumer<CharSequence> consumer = appComponent.createSearchFragmentComponent().getConsumer();
         Router router = App.getInstance().getRouter();
 
-        return new SearchPresenter(vacancyInteractor, router, consumer);
+        return new SearchPresenter(vacancyInteractor, router);
     }
 
     @BindView(R.id.keywords)
@@ -78,6 +78,8 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView {
     Spinner periodSpinner;
     @BindView(R.id.short_search_result_textView)
     TextView shortSearchResultTextView;
+    @BindView(R.id.checkBox_search_save_results)
+    CheckBox saveResultsCheckBox;
     @BindView(R.id.activity_main_button_search)
     Button searchButton;
 
@@ -130,7 +132,12 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         periodSpinner.setAdapter(adapter);
 
-        mSearchPresenter.onViewCreated(textChanges(keywords), checkedChanges(radioButton), textChanges(minSalary), textChanges(city));
+        mSearchPresenter.onViewCreated(
+                textChanges(keywords),
+                checkedChanges(radioButton),
+                textChanges(minSalary),
+                textChanges(city),
+                checkedChanges(saveResultsCheckBox));
 
         Log.e(TAG, "onViewCreated");
     }

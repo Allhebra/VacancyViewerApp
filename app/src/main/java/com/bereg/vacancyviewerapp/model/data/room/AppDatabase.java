@@ -1,10 +1,10 @@
-package com.bereg.vacancyviewerapp.db.room;
+package com.bereg.vacancyviewerapp.model.data.room;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
-import com.bereg.vacancyviewerapp.db.room.dao.VacancyDao;
-import com.bereg.vacancyviewerapp.db.room.entity.Vacancy;
+import com.bereg.vacancyviewerapp.model.data.room.dao.VacancyDao;
+import com.bereg.vacancyviewerapp.model.data.room.entity.Vacancy;
 
 /**
  * Created by 1 on 28.01.2018.

@@ -62,6 +62,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <CheckBox
+        android:id="@+id/checkBox_search_save_results"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save_results" />
+
     <Button
         android:id="@+id/activity_main_button_search"
         android:layout_width="match_parent"

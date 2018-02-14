@@ -15,6 +15,7 @@ import com.bereg.vacancyviewerapp.R;
 import com.bereg.vacancyviewerapp.Screens;
 import com.bereg.vacancyviewerapp.presentation.presenter.MainPresenter;
 import com.bereg.vacancyviewerapp.presentation.view.MainView;
+import com.bereg.vacancyviewerapp.ui.fragment.DetailedVacancyFragment;
 import com.bereg.vacancyviewerapp.ui.fragment.SearchFragment;
 import com.bereg.vacancyviewerapp.ui.fragment.VacancyListFragment;
 
@@ -48,6 +49,9 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
                 case Screens.VACANCY_LIST_SCREEN:
                     Log.e(TAG, "VACANCY_LIST_SCREEN");
                     return VacancyListFragment.getInstance();
+                case Screens.DETAILED_VACANCY_SCREEN:
+                    Log.e(TAG, "DETAILED_VACANCY_SCREEN");
+                    return DetailedVacancyFragment.getInstance();
             }
             Log.e(TAG, "NULL");
             return null;

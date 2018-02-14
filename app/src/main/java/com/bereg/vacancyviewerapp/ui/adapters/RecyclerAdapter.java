@@ -9,8 +9,16 @@ import android.widget.TextView;
 
 import com.bereg.vacancyviewerapp.R;
 import com.bereg.vacancyviewerapp.model.Vacancy;
+import com.jakewharton.rxbinding2.view.RxView;
+import com.jakewharton.rxbinding2.widget.AdapterViewItemClickEvent;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by 1 on 07.01.2018.
@@ -19,10 +27,15 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     private static final String TAG = RecyclerAdapter.class.getSimpleName();
+    private static PublishSubject<View> mViewClickSubject = PublishSubject.create();
     private List<Vacancy> items;
 
     public RecyclerAdapter(List<Vacancy> list) {
         this.items = list;
+    }
+
+    public static Observable<View> getViewClickedObservable() {
+        return mViewClickSubject.hide();
     }
 
     @Override
@@ -30,19 +43,37 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.vacancy_list_item, parent, false);
         Log.e(TAG, "onCreateViewHolder");
+
+
+        
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        //holder.numberTextView.setText(items.get(position).getNumber());
         holder.headerTextView.setText(items.get(position).getHeader());
         holder.addDateTextView.setText(items.get(position).getAddDate());
         holder.minSalaryTextView.setText(items.get(position).getMinSalary());
         holder.maxSalaryTextView.setText(items.get(position).getMaxSalary());
         holder.contactTextView.setText(items.get(position).getContact().getCity().getTitle());
         Log.e(TAG, "onBindViewHolder" + position);
+
+        RxView.clicks(holder.view)
+                //.takeUntil(RxView.detaches(parent))
+                .map(new Function<Object, View>() {
+                    @Override
+                    public View apply(Object o) throws Exception {
+                        return holder.view;
+                    }
+                })
+                .subscribe(mViewClickSubject
+                        /*new Consumer<View>() {
+                    @Override
+                    public void accept(View view) throws Exception {
+
+                    }
+                }*/);
     }
 
     @Override
@@ -53,7 +84,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        //TextView numberTextView;
+        View view;
+
         TextView headerTextView;
         TextView addDateTextView;
         TextView minSalaryTextView;
@@ -62,12 +94,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         ViewHolder(View v) {
             super(v);
-            //numberTextView = (TextView) v.findViewById(R.id.numberTextView);
+            this.view = v;
             headerTextView = v.findViewById(R.id.headerTextView);
             addDateTextView = v.findViewById(R.id.addDateTextView);
             minSalaryTextView = v.findViewById(R.id.min_salary_TextView);
             maxSalaryTextView = v.findViewById(R.id.max_salary_TextView);
             contactTextView = v.findViewById(R.id.contact_TextView);
+        }
+
+        View getView() {
+            return view;
         }
     }
 }

@@ -1,9 +1,9 @@
-package com.bereg.vacancyviewerapp.api;
+package com.bereg.vacancyviewerapp.model.data.api;
 
 import com.bereg.vacancyviewerapp.model.VacancyList;
 
+import io.reactivex.Observable;
 import io.reactivex.Single;
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -23,9 +23,10 @@ public interface NgsApi {
                                           @Query("salary") String salary);
 
     @GET("vacancies/?fields=")
-    Single<VacancyList> getShortObservableData(@Query("header") String header,
-                                               @Query("description") String description,
-                                               @Query("salary_min") String minSalary,
-                                               @Query("salary_max") String maxSalary,
-                                               @Query("salary") String salary);
+    Single<VacancyList> getShortObservableData(@Query("id") String id,
+                                                   @Query("header") String header,
+                                                   @Query("description") String description,
+                                                   @Query("salary_min") String minSalary,
+                                                   @Query("salary_max") String maxSalary,
+                                                   @Query("salary") String salary);
 }

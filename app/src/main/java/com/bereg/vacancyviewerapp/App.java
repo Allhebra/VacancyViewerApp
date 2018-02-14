@@ -4,7 +4,8 @@ import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.util.Log;
 
-import com.bereg.vacancyviewerapp.db.room.AppDatabase;
+import com.bereg.vacancyviewerapp.di.AppModule;
+import com.bereg.vacancyviewerapp.model.data.room.AppDatabase;
 import com.bereg.vacancyviewerapp.di.AppComponent;
 import com.bereg.vacancyviewerapp.di.DaggerAppComponent;
 
@@ -30,11 +31,13 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        appComponent = DaggerAppComponent.create();
+        appComponent = DaggerAppComponent
+                .builder()
+                .appModule(new AppModule(getApplicationContext()))
+                .build();
         cicerone = Cicerone.create();
-        AppDatabase database =  Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "VacancyViewerDatabase").build();
-        Log.e(TAG, String.valueOf(appComponent) + String.valueOf(cicerone));
+        AppDatabase database = appComponent.getAppDatabase();
+        Log.e(TAG, String.valueOf(appComponent) + String.valueOf(cicerone) + String.valueOf(database));
     }
 
     public NavigatorHolder getNavigatorHolder() {

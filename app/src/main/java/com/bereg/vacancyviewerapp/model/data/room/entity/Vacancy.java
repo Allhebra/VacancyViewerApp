@@ -1,9 +1,7 @@
-package com.bereg.vacancyviewerapp.db.room.entity;
+package com.bereg.vacancyviewerapp.model.data.room.entity;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-
-import org.joda.time.DateTime;
 
 /**
  * Created by 1 on 28.01.2018.
@@ -15,7 +13,7 @@ public class Vacancy {
     @PrimaryKey
     public long id;
 
-    //public DateTime dateTime;
+    public String addDate;
 
     public String header;
 
@@ -25,9 +23,5 @@ public class Vacancy {
 
     public int salary_max;
 
-    public String currency;
-
-    public String education;
-
-    //experience_lenght,contact,addres_description,logo,requirements,salary
+    public int salary;
 }

@@ -52,9 +52,9 @@ public class Vacancy {
     public String getMaxSalary() {
         return maxSalary;
     }
-    /*public String getSalary() {
+    public String getSalary() {
         return salary;
-    }*/
+    }
     public Contact getContact() {
         return contact;
     }

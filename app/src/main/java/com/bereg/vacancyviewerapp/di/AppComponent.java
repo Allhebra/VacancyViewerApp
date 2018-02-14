@@ -1,7 +1,9 @@
 package com.bereg.vacancyviewerapp.di;
 
-import com.bereg.vacancyviewerapp.model.VacancyInteractor;
-import com.bereg.vacancyviewerapp.presentation.presenter.SearchPresenter;
+import com.bereg.vacancyviewerapp.model.data.room.AppDatabase;
+import com.bereg.vacancyviewerapp.model.interactor.VacancyInteractor;
+import com.bereg.vacancyviewerapp.model.repository.RoomRepository;
+import com.bereg.vacancyviewerapp.model.repository.ServerRepository;
 
 import javax.inject.Singleton;
 
@@ -15,9 +17,10 @@ import dagger.Component;
 @Component(modules = {AppModule.class})
 public interface AppComponent {
 
-    VacancyInteractor getVacancyInteractor();
-    //ActivityComponent createActivityComponent();
-    SearchFragmentComponent createSearchFragmentComponent();
+    void injectRoomRepository(RoomRepository roomRepository);
+    void injectServerRepository(ServerRepository serverRepository);
 
-    //void inject(SearchPresenter presenter);
+    VacancyInteractor getVacancyInteractor();
+    SearchFragmentComponent createSearchFragmentComponent();
+    AppDatabase getAppDatabase();
 }

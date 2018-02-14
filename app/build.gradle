@@ -33,6 +33,7 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.14.1'
     implementation "android.arch.persistence.room:runtime:1.0.0"
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
+    implementation "android.arch.persistence.room:rxjava2:1.0.0"
     compile 'ru.terrakok.cicerone:cicerone:3.0.0'
     compile 'com.arello-mobile:moxy:1.5.3'
     annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'

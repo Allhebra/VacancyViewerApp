@@ -24,8 +24,8 @@ public class Util {
         while (iterator.hasNext()) {
             Vacancy vacancy = iterator.next();
             if (!vacancy.getHeader().contains(keywords) && !vacancy.getDescription().contains(keywords)) iterator.remove();
-            Log.e(TAG, "UtilElse");
         }
+        Log.e(TAG, "" + list.size());
         return list;
     }
 }

@@ -1,4 +1,4 @@
-package com.bereg.vacancyviewerapp.api;
+package com.bereg.vacancyviewerapp.model.data.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
