@@ -10,6 +10,7 @@ import com.bereg.vacancyviewerapp.model.data.room.entity.Vacancy;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
@@ -30,7 +31,7 @@ public interface VacancyDao {
     void insert(Vacancy vacancy);
 
     @Insert
-    void insert(List<Vacancy> list);
+    List<Long> insert(List<Vacancy> list);
 
     @Update
     void update(Vacancy vacancy);

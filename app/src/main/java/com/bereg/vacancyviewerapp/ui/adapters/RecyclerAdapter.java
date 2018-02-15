@@ -27,14 +27,14 @@ import io.reactivex.subjects.PublishSubject;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     private static final String TAG = RecyclerAdapter.class.getSimpleName();
-    private static PublishSubject<View> mViewClickSubject = PublishSubject.create();
+    private static PublishSubject<Integer> mViewClickSubject = PublishSubject.create();
     private List<Vacancy> items;
 
     public RecyclerAdapter(List<Vacancy> list) {
         this.items = list;
     }
 
-    public static Observable<View> getViewClickedObservable() {
+    public static Observable<Integer> getViewClickedObservable() {
         return mViewClickSubject.hide();
     }
 
@@ -44,27 +44,25 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 .inflate(R.layout.vacancy_list_item, parent, false);
         Log.e(TAG, "onCreateViewHolder");
 
-
-        
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         holder.headerTextView.setText(items.get(position).getHeader());
         holder.addDateTextView.setText(items.get(position).getAddDate());
         holder.minSalaryTextView.setText(items.get(position).getMinSalary());
         holder.maxSalaryTextView.setText(items.get(position).getMaxSalary());
-        holder.contactTextView.setText(items.get(position).getContact().getCity().getTitle());
+        //holder.contactTextView.setText(items.get(position).getContact().getCity().getTitle());
         Log.e(TAG, "onBindViewHolder" + position);
 
         RxView.clicks(holder.view)
                 //.takeUntil(RxView.detaches(parent))
-                .map(new Function<Object, View>() {
+                .map(new Function<Object, Integer>() {
                     @Override
-                    public View apply(Object o) throws Exception {
-                        return holder.view;
+                    public Integer apply(Object o) throws Exception {
+                        return position/*holder.getView()*/;
                     }
                 })
                 .subscribe(mViewClickSubject

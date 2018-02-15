@@ -51,7 +51,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
                     return VacancyListFragment.getInstance();
                 case Screens.DETAILED_VACANCY_SCREEN:
                     Log.e(TAG, "DETAILED_VACANCY_SCREEN");
-                    return DetailedVacancyFragment.getInstance();
+                    return DetailedVacancyFragment.getInstance(data);
             }
             Log.e(TAG, "NULL");
             return null;

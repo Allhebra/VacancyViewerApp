@@ -15,6 +15,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bereg.vacancyviewerapp.App;
 import com.bereg.vacancyviewerapp.R;
+import com.bereg.vacancyviewerapp.Screens;
 import com.bereg.vacancyviewerapp.model.Vacancy;
 import com.bereg.vacancyviewerapp.model.interactor.VacancyInteractor;
 import com.bereg.vacancyviewerapp.presentation.presenter.VacancyListPresenter;
@@ -24,6 +25,7 @@ import com.bereg.vacancyviewerapp.ui.adapters.RecyclerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.functions.Consumer;
 import ru.terrakok.cicerone.Router;
 
 /**
@@ -86,6 +88,15 @@ public class VacancyListFragment extends MvpAppCompatFragment implements Vacancy
         mRecyclerView.setAdapter(mRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerAdapter.notifyDataSetChanged();
+
+        RecyclerAdapter.getViewClickedObservable()
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        mVacancyListPresenter.showDetail(integer);
+                        //mRouter.navigateTo(Screens.DETAILED_VACANCY_SCREEN);
+                    }
+                });
         Log.e(TAG, "onViewCreated:  showVacancyList");
         //ButterKnife.bind(this, view);
     }

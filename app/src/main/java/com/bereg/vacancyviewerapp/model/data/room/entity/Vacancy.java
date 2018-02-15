@@ -10,18 +10,78 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity
 public class Vacancy {
 
+    public Vacancy() {
+
+    }
+
     @PrimaryKey
-    public long id;
+    private long id;
 
-    public String addDate;
+    private String addDate;
 
-    public String header;
+    private String header;
 
-    public String description;
+    private String description;
 
-    public int salary_min;
+    private String minSalary;
 
-    public int salary_max;
+    private String maxSalary;
 
-    public int salary;
+    private String salary;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getAddDate() {
+        return addDate;
+    }
+
+    public void setAddDate(String addDate) {
+        this.addDate = addDate;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getMinSalary() {
+        return minSalary;
+    }
+
+    public void setMinSalary(String salary_min) {
+        this.minSalary = salary_min;
+    }
+
+    public String getMaxSalary() {
+        return maxSalary;
+    }
+
+    public void setMaxSalary(String salary_max) {
+        this.maxSalary = salary_max;
+    }
+
+    public String getSalary() {
+        return salary;
+    }
+
+    public void setSalary(String salary) {
+        this.salary = salary;
+    }
 }

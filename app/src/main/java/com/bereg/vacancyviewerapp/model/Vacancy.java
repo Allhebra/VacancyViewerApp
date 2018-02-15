@@ -30,53 +30,60 @@ public class Vacancy {
     @SerializedName("salary")
     @Expose
     private String salary;
-    @SerializedName("contact")
-    @Expose
-    private Contact contact;
+
 
     public String getId() {
         return id;
-    }
-    public String getAddDate() {
-        return addDate;
-    }
-    public String getHeader() {
-        return header;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public String getMinSalary() {
-        return minSalary;
-    }
-    public String getMaxSalary() {
-        return maxSalary;
-    }
-    public String getSalary() {
-        return salary;
-    }
-    public Contact getContact() {
-        return contact;
     }
 
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getAddDate() {
+        return addDate;
+    }
+
     public void setAddDate(String addDate) {
         this.addDate = addDate;
     }
+
+    public String getHeader() {
+        return header;
+    }
+
     public void setHeader(String header) {
         this.header = header;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getMinSalary() {
+        return minSalary;
+    }
+
     public void setMinSalary(String minSalary) {
         this.minSalary = minSalary;
     }
+
+    public String getMaxSalary() {
+        return maxSalary;
+    }
+
     public void setMaxSalary(String maxSalary) {
         this.maxSalary = maxSalary;
     }
+
+    public String getSalary() {
+        return salary;
+    }
+
     public void setSalary(String salary) {
         this.salary = salary;
     }

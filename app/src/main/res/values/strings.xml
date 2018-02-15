@@ -7,7 +7,7 @@
     <string name="period">Выберите период</string>
     <string name="min_salary">Введите ожидаемый уровень зарплаты:</string>
     <string name="city">Введите город:</string>
-    <string name="save_results">Сохранить результаты поиска на телефоне</string>
+    <string name="save_results">Сохранить результаты поиска в телефоне</string>
     <string name="button_search">Показать вакансии</string>
 
     <string-array name="period_array">

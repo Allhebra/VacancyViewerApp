@@ -45,8 +45,9 @@ public class DetailedVacancyFragment extends MvpAppCompatFragment implements Det
     public DetailedVacancyFragment() {
     }
 
-    public static DetailedVacancyFragment getInstance() {
+    public static DetailedVacancyFragment getInstance(Object data) {
         Bundle args = new Bundle();
+        //args.put
         DetailedVacancyFragment fragment = new DetailedVacancyFragment();
         fragment.setArguments(args);
         Log.e(TAG, "getInstance");

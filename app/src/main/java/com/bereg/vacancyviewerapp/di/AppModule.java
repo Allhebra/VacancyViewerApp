@@ -33,7 +33,9 @@ public class AppModule {
     @Singleton
     AppDatabase provideAppDatabase() {
         return Room.databaseBuilder(mContext,
-                AppDatabase.class, "VacancyViewerDatabase").build();
+                AppDatabase.class, "VacancyViewerDatabase")
+                .fallbackToDestructiveMigration()
+                .build();
     }
 
     @Provides

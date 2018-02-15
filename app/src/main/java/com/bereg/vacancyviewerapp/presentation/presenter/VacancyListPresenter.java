@@ -26,6 +26,7 @@ public class VacancyListPresenter extends MvpPresenter<VacancyListView> {
     private static final String TAG = VacancyListPresenter.class.getSimpleName();
     private VacancyInteractor mVacancyInteractor;
     private Router mRouter;
+    private List<Vacancy> mVacancies;
 
 
     public VacancyListPresenter(VacancyInteractor vacancyInteractor, Router router) {
@@ -34,13 +35,18 @@ public class VacancyListPresenter extends MvpPresenter<VacancyListView> {
         mRouter = router;
         getVacancyList();
         Log.e(TAG, "showVacancyListInPresenter");
-        RecyclerAdapter.getViewClickedObservable()
+        /*RecyclerAdapter.getViewClickedObservable()
                 .subscribe(new Consumer<View>() {
                     @Override
                     public void accept(View view) throws Exception {
                         mRouter.navigateTo(Screens.DETAILED_VACANCY_SCREEN);
                     }
-                });
+                });*/
+    }
+
+    public void showDetail(Integer integer) {
+
+        mRouter.navigateTo(Screens.DETAILED_VACANCY_SCREEN, mVacancies.get(integer));
     }
 
     private void getVacancyList() {
@@ -51,6 +57,7 @@ public class VacancyListPresenter extends MvpPresenter<VacancyListView> {
             @Override
             public void accept(List<Vacancy> vacancies) throws Exception {
                 Log.e(TAG, "inAccept");
+                mVacancies = vacancies;
                 getViewState().showVacancyList(vacancies);
             }
         });

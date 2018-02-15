@@ -37,7 +37,6 @@ public class ServerRepository {
     public NgsApi mNgsApi;
     @Inject
     public RequestParameterModel mRequestParameterModel;
-    //private List<Vacancy> vacancies = new ArrayList<>();
 
     public  ServerRepository(NgsApi ngsApi, RequestParameterModel requestParameterModel) {
         mNgsApi = ngsApi;
@@ -56,22 +55,5 @@ public class ServerRepository {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread());
-
-                /*.subscribe(new DisposableSingleObserver<VacancyList>() {
-                    @Override
-                    public void onSuccess(VacancyList vacancyList) {
-                        Log.e(TAG, "222");
-                        vacancies = Util.searchOccurence(vacancyList.getVacancies(), mRequestParameterModel.getKeywords());
-                        //disposableSingleObserver.onSuccess(vacancies);
-                    }
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, e.toString());
-                    }
-                });*/
-
-
-
-        //return Single.just(vacancies);
     }
 }

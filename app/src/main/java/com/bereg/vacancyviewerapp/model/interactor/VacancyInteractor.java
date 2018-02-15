@@ -67,7 +67,7 @@ public class VacancyInteractor {
                     @Override
                     public void onNext(CharSequence charSequence) {
                         mRequestParameterModel.setKeywords(charSequence.toString());
-                        Log.e(TAG, "tag" + mRequestParameterModel.getKeywords());
+                        Log.e(TAG, "keywordsObservable" + mRequestParameterModel.getKeywords());
                         getShortObservableData(disposableSingleObserver);
                     }
 
@@ -89,7 +89,7 @@ public class VacancyInteractor {
                         if (aBoolean) {
                             mRequestParameterModel.setString(DESCRIPTION);
                         } else mRequestParameterModel.setString("");
-                        Log.e(TAG, "tag" + mRequestParameterModel.getString());
+                        Log.e(TAG, "booleanObservable" + mRequestParameterModel.getString());
                         getShortObservableData(disposableSingleObserver);
                     }
 
@@ -115,6 +115,7 @@ public class VacancyInteractor {
                     @Override
                     public void onNext(CharSequence charSequence) {
                         mRequestParameterModel.setMinSalary(charSequence.toString());
+                        Log.e(TAG, "minSalaryObservable" + mRequestParameterModel.getString());
                         getShortObservableData(disposableSingleObserver);
                     }
 
@@ -134,6 +135,7 @@ public class VacancyInteractor {
                     @Override
                     public void onNext(Boolean aBoolean) {
                         mRequestParameterModel.setSaveResults(aBoolean);
+                        Log.e(TAG, "saveResultsObservable" + mRequestParameterModel.getString());
                         getShortObservableData(disposableSingleObserver);
                     }
 
@@ -150,7 +152,7 @@ public class VacancyInteractor {
     }
 
     private void getShortObservableData(final DisposableSingleObserver<List<Vacancy>> disposableSingleObserver) {
-        Log.e(TAG, "111");
+        Log.e(TAG, "getShortObservableData");
         mVacancies.clear();
 
         Single
@@ -158,7 +160,7 @@ public class VacancyInteractor {
                 .filter(new Predicate<List<Vacancy>>() {
                     @Override
                     public boolean test(List<Vacancy> vacancies) throws Exception {
-                        Log.e(TAG, "" + vacancies.size());
+                        Log.e(TAG, "Predicate" + vacancies.size());
                         return !vacancies.isEmpty();
                     }
                 })
@@ -166,8 +168,9 @@ public class VacancyInteractor {
                 .subscribe(new DisposableSingleObserver<List<Vacancy>>() {
                     @Override
                     public void onSuccess(List<Vacancy> vacancies) {
-                        Log.e(TAG, "" + vacancies.size());
+                        Log.e(TAG, "getShortObservableDataOnSuccess" + vacancies.size());
                         mVacancies.addAll(0, vacancies);
+                        mRoomRepository.saveToDatabase(mVacancies);
                         disposableSingleObserver.onSuccess(vacancies);
                     }
 
@@ -176,47 +179,7 @@ public class VacancyInteractor {
                         Log.e(TAG, e.toString());
                     }
                 });
-
-        /*ngsApi.getShortObservableData(ID, HEADER, string, MIN_SALARY, MAX_SALARY, minSalary)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<VacancyList>() {
-                    @Override
-                    public void onSuccess(VacancyList vacancyList) {
-                        Log.e(TAG, "222");
-                        vacancies = Util.searchOccurence(vacancyList.getVacancies(), keywords);
-                        disposableSingleObserver.onSuccess(vacancies);
-                    }
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, e.toString());
-                    }
-                });*/
     }
-
-    /*public void getVacancies(final DisposableSingleObserver<Boolean> disposableSingleObserver) {
-
-        ngsApi.getObservableData(ID, ADD_DATE, HEADER, MIN_SALARY, MAX_SALARY, CONTACT, minSalary)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<VacancyList>() {
-
-                    @Override
-                    public void onSuccess(@NonNull VacancyList vacancyList) {
-                        vacancies.addAll(0, vacancyList.getVacancies());
-                        Log.e(TAG, "onSuccess: " + vacancies.size());
-                        disposableSingleObserver.onSuccess(true);
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.e(TAG, String.valueOf(e));
-                    }
-                });
-
-        Log.e(TAG, "empty " + vacancies.isEmpty());
-        Log.e(TAG, String.valueOf(ngsApi));
-    }*/
 
     public Single<List<Vacancy>> showVacancies() {
         Log.e(TAG, "showVacancies");
