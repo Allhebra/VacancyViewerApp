@@ -152,25 +152,16 @@ public class VacancyInteractor {
     }
 
     private void getShortObservableData(final DisposableSingleObserver<List<Vacancy>> disposableSingleObserver) {
-        Log.e(TAG, "getShortObservableData");
-        mVacancies.clear();
 
-        Single
-                .concat(mRoomRepository.getFromDatabase(), mServerRepository.getFromServer())
-                .filter(new Predicate<List<Vacancy>>() {
-                    @Override
-                    public boolean test(List<Vacancy> vacancies) throws Exception {
-                        Log.e(TAG, "Predicate" + vacancies.size());
-                        return !vacancies.isEmpty();
-                    }
-                })
-                .first(Collections.<Vacancy>emptyList())
+        Log.e(TAG, "getShortObservableData");
+        mServerRepository.getFromServer()
                 .subscribe(new DisposableSingleObserver<List<Vacancy>>() {
                     @Override
                     public void onSuccess(List<Vacancy> vacancies) {
                         Log.e(TAG, "getShortObservableDataOnSuccess" + vacancies.size());
+                        mVacancies.clear();
                         mVacancies.addAll(0, vacancies);
-                        mRoomRepository.saveToDatabase(mVacancies);
+                        //mRoomRepository.saveToDatabase(mVacancies);
                         disposableSingleObserver.onSuccess(vacancies);
                     }
 
@@ -179,6 +170,12 @@ public class VacancyInteractor {
                         Log.e(TAG, e.toString());
                     }
                 });
+    }
+
+    public Single<Vacancy> getVacancyById(Long id) {
+
+        Log.e(TAG, "getVacancyById:   " + id);
+        return mRoomRepository.getFromDatabaseById(id);
     }
 
     public Single<List<Vacancy>> showVacancies() {

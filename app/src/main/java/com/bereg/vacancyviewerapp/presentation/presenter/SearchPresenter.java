@@ -62,9 +62,9 @@ public class SearchPresenter extends MvpPresenter<SearchView> {
         });
     }
 
-    public void onSearchButtonPressed() {
+    public void onShowButtonPressed() {
 
-        Log.e(TAG, "ShowData");
+        Log.e(TAG, "onShowButtonPressed");
         mRouter.navigateTo(Screens.VACANCY_LIST_SCREEN);
     }
 }

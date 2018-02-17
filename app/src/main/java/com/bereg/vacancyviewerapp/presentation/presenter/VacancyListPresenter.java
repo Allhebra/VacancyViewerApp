@@ -45,8 +45,8 @@ public class VacancyListPresenter extends MvpPresenter<VacancyListView> {
     }
 
     public void showDetail(Integer integer) {
-
-        mRouter.navigateTo(Screens.DETAILED_VACANCY_SCREEN, mVacancies.get(integer));
+        Log.e(TAG, "showDetail:   " + integer);
+        mRouter.navigateTo(Screens.DETAILED_VACANCY_SCREEN, Long.valueOf(mVacancies.get(integer).getId()));
     }
 
     private void getVacancyList() {

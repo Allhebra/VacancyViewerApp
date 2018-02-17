@@ -56,7 +56,7 @@ public class VacancyListFragment extends MvpAppCompatFragment implements Vacancy
         Bundle args = new Bundle();
         VacancyListFragment fragment = new VacancyListFragment();
         fragment.setArguments(args);
-        Log.e(TAG, "getInstance:  showVacancyList");
+        //Log.e(TAG, "getInstance");
         return fragment;
     }
 
@@ -74,7 +74,7 @@ public class VacancyListFragment extends MvpAppCompatFragment implements Vacancy
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        Log.e(TAG, "onCreateView:  showVacancyList");
+        //Log.e(TAG, "onCreateView");
         return inflater.inflate(R.layout.fragment_vacancy_list, container, false);
     }
 
@@ -82,7 +82,7 @@ public class VacancyListFragment extends MvpAppCompatFragment implements Vacancy
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView mRecyclerView = view.findViewById(R.id.vacancy_list);
+        RecyclerView mRecyclerView = view.findViewById(R.id.rv_frag_vacancy_list);
         //mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerAdapter = new RecyclerAdapter(vacancies);
         mRecyclerView.setAdapter(mRecyclerAdapter);
@@ -93,18 +93,20 @@ public class VacancyListFragment extends MvpAppCompatFragment implements Vacancy
                 .subscribe(new Consumer<Integer>() {
                     @Override
                     public void accept(Integer integer) throws Exception {
+                        Log.e(TAG, "RecyclerAdapter.getViewClickedObservable:   " + integer);
                         mVacancyListPresenter.showDetail(integer);
                         //mRouter.navigateTo(Screens.DETAILED_VACANCY_SCREEN);
                     }
                 });
-        Log.e(TAG, "onViewCreated:  showVacancyList");
+        //Log.e(TAG, "onViewCreated");
         //ButterKnife.bind(this, view);
     }
 
     @Override
     public void showVacancyList(List<Vacancy> list) {
 
-        this.vacancies.addAll(list);
+        vacancies.clear();
+        vacancies.addAll(list);
         Log.e(TAG, "showVacancyList" + vacancies);
     }
 }

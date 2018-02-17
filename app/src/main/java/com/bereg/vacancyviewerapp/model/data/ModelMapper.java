@@ -17,7 +17,7 @@ public class ModelMapper {
 
     private static final String TAG = ModelMapper.class.getSimpleName();
 
-    public static List<Vacancy> mapDatabaseToServerModel(List<com.bereg.vacancyviewerapp.model.data.room.entity.Vacancy> vacancyList) {
+    public static List<Vacancy> mapAllDatabaseToServerModel(List<com.bereg.vacancyviewerapp.model.data.room.entity.Vacancy> vacancyList) {
 
         List<Vacancy> list = new ArrayList<>();
 
@@ -38,7 +38,7 @@ public class ModelMapper {
         }
     }
 
-    public static List<com.bereg.vacancyviewerapp.model.data.room.entity.Vacancy> mapServerToDatabaseModel(List<Vacancy> vacancyList) {
+    public static List<com.bereg.vacancyviewerapp.model.data.room.entity.Vacancy> mapAllServerToDatabaseModel(List<Vacancy> vacancyList) {
 
         List<com.bereg.vacancyviewerapp.model.data.room.entity.Vacancy> list = new ArrayList<>();
 
@@ -68,5 +68,20 @@ public class ModelMapper {
             Log.e(TAG,"return");
             return list;
         }
+    }
+
+    public static Vacancy mapDatabaseToServerModel(com.bereg.vacancyviewerapp.model.data.room.entity.Vacancy vacancy) {
+
+        Vacancy serverModel = new Vacancy();
+
+        serverModel.setId(valueOf(vacancy.getId()));
+        serverModel.setAddDate(vacancy.getAddDate());
+        serverModel.setHeader(vacancy.getHeader());
+        serverModel.setDescription(vacancy.getDescription());
+        serverModel.setMinSalary(valueOf(vacancy.getMinSalary()));
+        serverModel.setMaxSalary(valueOf(vacancy.getMaxSalary()));
+        serverModel.setSalary(valueOf(vacancy.getSalary()));
+
+        return serverModel;
     }
 }

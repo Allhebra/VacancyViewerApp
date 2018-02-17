@@ -66,22 +66,22 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView {
         return new SearchPresenter(vacancyInteractor, router);
     }
 
-    @BindView(R.id.keywords)
+    @BindView(R.id.et_keywords)
     EditText keywords;
-    @BindView(R.id.radioButton)
+    @BindView(R.id.rb_search_description)
     RadioButton radioButton;
-    @BindView(R.id.min_salary)
+    @BindView(R.id.et_min_salary)
     EditText minSalary;
-    @BindView(R.id.city)
+    @BindView(R.id.et_city)
     EditText city;
-    @BindView(R.id.period_spinner)
+    @BindView(R.id.spn_period)
     Spinner periodSpinner;
-    @BindView(R.id.short_search_result_textView)
+    @BindView(R.id.tv_short_result)
     TextView shortSearchResultTextView;
-    @BindView(R.id.checkBox_search_save_results)
+    @BindView(R.id.chk_save_search_results)
     CheckBox saveResultsCheckBox;
-    @BindView(R.id.activity_main_button_search)
-    Button searchButton;
+    @BindView(R.id.btn_fragment_search_show_results)
+    Button showResultsButton;
 
     public SearchFragment() {
     }
@@ -90,7 +90,7 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView {
         Bundle args = new Bundle();
         SearchFragment fragment = new SearchFragment();
         fragment.setArguments(args);
-        Log.e(TAG, "getInstance");
+        //Log.e(TAG, "getInstance");
         return fragment;
     }
 
@@ -139,12 +139,12 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView {
                 textChanges(city),
                 checkedChanges(saveResultsCheckBox));
 
-        Log.e(TAG, "onViewCreated");
+        //Log.e(TAG, "onViewCreated");
     }
 
-    @OnClick(R.id.activity_main_button_search)
+    @OnClick(R.id.btn_fragment_search_show_results)
     public void onSearchButtonClick() {
-        mSearchPresenter.onSearchButtonPressed();
+        mSearchPresenter.onShowButtonPressed();
     }
 
     @Override

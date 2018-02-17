@@ -3,12 +3,12 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="keywords_for_search">Введите ключевые слова для поиска:</string>
-    <string name="area_for_search">Искать в подробном описании</string>
+    <string name="search_description">Искать в подробном описании</string>
     <string name="period">Выберите период</string>
     <string name="min_salary">Введите ожидаемый уровень зарплаты:</string>
     <string name="city">Введите город:</string>
-    <string name="save_results">Сохранить результаты поиска в телефоне</string>
-    <string name="button_search">Показать вакансии</string>
+    <string name="save_search_results">Сохранить результаты поиска в телефоне</string>
+    <string name="fragment_search_show_results">Показать вакансии</string>
 
     <string-array name="period_array">
         <item>today</item>
@@ -16,6 +16,12 @@
         <item>week</item>
         <item>month</item>
     </string-array>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

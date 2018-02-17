@@ -13,6 +13,7 @@ import com.bereg.vacancyviewerapp.model.data.room.dao.VacancyDao;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
@@ -61,20 +62,46 @@ public class RoomRepository {
                     @Override
                     public List<Vacancy> apply(List<com.bereg.vacancyviewerapp.model.data.room.entity.Vacancy> vacancies) throws Exception {
                         Log.e(TAG, vacancies.toString() + "getFromDatabase" + vacancies.size());
-                        return ModelMapper.mapDatabaseToServerModel(vacancies);
+                        return ModelMapper.mapAllDatabaseToServerModel(vacancies);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public void saveToDatabase(List<Vacancy> vacancyList) {
+    public Single<Vacancy> getFromDatabaseById(Long id) {
+
+        Log.e(TAG,"getFromDatabaseById:   " + id);
+        return vacancyDao
+                .getById(id)
+                .subscribeOn(Schedulers.io())
+                .map(new Function<com.bereg.vacancyviewerapp.model.data.room.entity.Vacancy, Vacancy>() {
+                    @Override
+                    public Vacancy apply(com.bereg.vacancyviewerapp.model.data.room.entity.Vacancy vacancy) throws Exception {
+                        Log.e(TAG, vacancies.toString() + "getFromDatabase" + vacancy.getId());
+                        return ModelMapper.mapDatabaseToServerModel(vacancy);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread());
+
+    }
+
+    public Completable saveToDatabase(final List<Vacancy> vacancyList) {
         Log.e(TAG,"saveToDatabase" + vacancyList.size());
-        List<Long> list;
-        list = vacancyDao.insert(ModelMapper.mapServerToDatabaseModel(vacancyList));
-        if (list.size() == vacancyList.size()) {
+        //List<Long> list;
+
+        return Completable.fromCallable(new Callable<List>() {
+            @Override
+            public List<Long> call() throws Exception {
+                return vacancyDao.insert(ModelMapper.mapAllServerToDatabaseModel(vacancyList));
+            }
+        });
+
+        //list = vacancyDao.insert(ModelMapper.mapServerToDatabaseModel(vacancyList));
+
+        /*if (list.size() == vacancyList.size()) {
             Log.e(TAG,"databaseSuccess");
         }else {
             Log.e(TAG, "databaseFailure");
-        }
+        }*/
     }
 }

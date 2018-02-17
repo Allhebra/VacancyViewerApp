@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/cardView"
+    android:id="@+id/cv_vacancy_list_item"
     card_view:cardCornerRadius="5dp"
     card_view:cardElevation="5dp"
     card_view:cardBackgroundColor="#d4f474"
@@ -15,35 +15,35 @@
         android:orientation="vertical">
 
     <TextView
-        android:id="@+id/headerTextView"
+        android:id="@+id/tv_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#000"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/addDateTextView"
+        android:id="@+id/tv_add_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#000"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/min_salary_TextView"
+        android:id="@+id/tv_min_salary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#000"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/max_salary_TextView"
+        android:id="@+id/tv_max_salary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#000"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/contact_TextView"
+        android:id="@+id/tv_contact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#000"

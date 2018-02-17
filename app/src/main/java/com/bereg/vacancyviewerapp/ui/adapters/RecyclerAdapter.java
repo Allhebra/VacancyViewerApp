@@ -65,13 +65,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                         return position/*holder.getView()*/;
                     }
                 })
-                .subscribe(mViewClickSubject
-                        /*new Consumer<View>() {
-                    @Override
-                    public void accept(View view) throws Exception {
-
-                    }
-                }*/);
+                .subscribe(mViewClickSubject);
     }
 
     @Override
@@ -93,11 +87,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         ViewHolder(View v) {
             super(v);
             this.view = v;
-            headerTextView = v.findViewById(R.id.headerTextView);
-            addDateTextView = v.findViewById(R.id.addDateTextView);
-            minSalaryTextView = v.findViewById(R.id.min_salary_TextView);
-            maxSalaryTextView = v.findViewById(R.id.max_salary_TextView);
-            contactTextView = v.findViewById(R.id.contact_TextView);
+            headerTextView = v.findViewById(R.id.tv_header);
+            addDateTextView = v.findViewById(R.id.tv_add_date);
+            minSalaryTextView = v.findViewById(R.id.tv_min_salary);
+            maxSalaryTextView = v.findViewById(R.id.tv_max_salary);
+            contactTextView = v.findViewById(R.id.tv_contact);
         }
 
         View getView() {

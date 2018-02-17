@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
@@ -15,10 +16,12 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bereg.vacancyviewerapp.App;
 import com.bereg.vacancyviewerapp.R;
 import com.bereg.vacancyviewerapp.di.AppComponent;
+import com.bereg.vacancyviewerapp.model.Vacancy;
 import com.bereg.vacancyviewerapp.model.interactor.VacancyInteractor;
 import com.bereg.vacancyviewerapp.presentation.presenter.DetailedVacancyPresenter;
 import com.bereg.vacancyviewerapp.presentation.view.DetailedVacancyView;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.terrakok.cicerone.Router;
 
@@ -42,15 +45,22 @@ public class DetailedVacancyFragment extends MvpAppCompatFragment implements Det
         return new DetailedVacancyPresenter(vacancyInteractor, router);
     }
 
+    @BindView(R.id.tv_header)
+    TextView header;
+    @BindView(R.id.tv_description)
+    TextView description;
+    @BindView(R.id.tv_add_date)
+    TextView addDate;
+
     public DetailedVacancyFragment() {
     }
 
-    public static DetailedVacancyFragment getInstance(Object data) {
+    public static DetailedVacancyFragment getInstance(Long id) {
         Bundle args = new Bundle();
-        //args.put
+        args.putLong("ID", id);
         DetailedVacancyFragment fragment = new DetailedVacancyFragment();
         fragment.setArguments(args);
-        Log.e(TAG, "getInstance");
+        Log.e(TAG, "getInstance:   " + args + id);
         return fragment;
     }
 
@@ -87,11 +97,16 @@ public class DetailedVacancyFragment extends MvpAppCompatFragment implements Det
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mDetailedVacancyPresenter.getVacancyById(getArguments().getLong("ID"));
         Log.e(TAG, "onViewCreated");
     }
 
     @Override
-    public void showDetails() {
+    public void showDetails(Vacancy vacancy) {
 
+        Log.e(TAG, "showDetails:   " + vacancy);
+        addDate.setText(vacancy.getAddDate());
+        header.setText(vacancy.getHeader());
+        description.setText(vacancy.getDescription());
     }
 }
