@@ -11,9 +11,14 @@ import com.bereg.vacancyviewerapp.model.interactor.VacancyInteractor;
 import com.bereg.vacancyviewerapp.presentation.view.VacancyListView;
 import com.bereg.vacancyviewerapp.ui.adapters.RecyclerAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.CompletableObserver;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DefaultObserver;
+import io.reactivex.observers.DisposableCompletableObserver;
 import ru.terrakok.cicerone.Router;
 
 /**
@@ -26,8 +31,7 @@ public class VacancyListPresenter extends MvpPresenter<VacancyListView> {
     private static final String TAG = VacancyListPresenter.class.getSimpleName();
     private VacancyInteractor mVacancyInteractor;
     private Router mRouter;
-    private List<Vacancy> mVacancies;
-
+    private List<Vacancy> mVacancies = new ArrayList<>();
 
     public VacancyListPresenter(VacancyInteractor vacancyInteractor, Router router) {
 
@@ -35,31 +39,61 @@ public class VacancyListPresenter extends MvpPresenter<VacancyListView> {
         mRouter = router;
         getVacancyList();
         Log.e(TAG, "showVacancyListInPresenter");
-        /*RecyclerAdapter.getViewClickedObservable()
-                .subscribe(new Consumer<View>() {
-                    @Override
-                    public void accept(View view) throws Exception {
-                        mRouter.navigateTo(Screens.DETAILED_VACANCY_SCREEN);
-                    }
-                });*/
-    }
-
-    public void showDetail(Integer integer) {
-        Log.e(TAG, "showDetail:   " + integer);
-        mRouter.navigateTo(Screens.DETAILED_VACANCY_SCREEN, Long.valueOf(mVacancies.get(integer).getId()));
     }
 
     private void getVacancyList() {
 
         Log.e(TAG, "getVacancyListInPresenter");
-        mVacancyInteractor.showVacancies()
-        .subscribe(new Consumer<List<Vacancy>>() {
-            @Override
-            public void accept(List<Vacancy> vacancies) throws Exception {
-                Log.e(TAG, "inAccept");
-                mVacancies = vacancies;
-                getViewState().showVacancyList(vacancies);
-            }
-        });
+
+        mVacancyInteractor.getRequestResultBuffer()
+                .subscribe(new DefaultObserver<List<Vacancy>>() {
+                    @Override
+                    public void onNext(List<Vacancy> vacancies) {
+                        Log.e(TAG, "mVacancyInteractor.getRequestResultBufferOnNext" + vacancies.size());
+                        mVacancies.clear();
+                        mVacancies.addAll(0, vacancies);
+                        getViewState().showVacancyList(vacancies);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "mVacancyInteractor.getRequestResultBufferOnError" + e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.e(TAG, "mVacancyInteractor.getRequestResultBufferOnComplete");
+                    }
+                });
+    }
+
+    public void showDetail(Vacancy integer) {
+
+        Log.e(TAG, "showDetail:   " + integer);
+        mRouter.navigateTo(Screens.DETAILED_VACANCY_SCREEN, Long.valueOf(integer.getId()));
+    }
+
+    public void onVacancyChanged(final Vacancy vacancy) {
+
+        Log.e(TAG, "onVacancyChangedFavorite:   " + vacancy);
+        final boolean isFavorite = vacancy.isFavorite();
+        final int index = mVacancies.indexOf(vacancy);
+        mVacancies.get(index).setFavorite(isFavorite);
+        //vacancy.setFavorite(!isFavorite);
+        mVacancyInteractor.changeVacancy(vacancy)
+                .subscribe(new DisposableCompletableObserver() {
+                    @Override
+                    public void onComplete() {
+                        mRouter.showSystemMessage("запись изменена!");
+                        Log.e(TAG, "onVacancyChangedFavoriteOnComplete:   " + isFavorite + index);
+                        getViewState().showVacancyList(mVacancies);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onVacancyChangedFavorite:   " + e);
+                        mRouter.showSystemMessage(e.getMessage());
+                    }
+                });
     }
 }

@@ -13,6 +13,7 @@ import java.util.List;
 
 public interface SearchView extends MvpView {
 
+    @StateStrategyType(SkipStrategy.class)
     void showShortSearchResult(int numberOfVacancies);
 
     //void showSearchForm();

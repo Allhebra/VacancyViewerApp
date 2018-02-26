@@ -8,6 +8,13 @@ import com.bereg.vacancyviewerapp.model.Vacancy;
 import com.bereg.vacancyviewerapp.model.interactor.VacancyInteractor;
 import com.bereg.vacancyviewerapp.presentation.view.DetailedVacancyView;
 
+import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import ru.terrakok.cicerone.Router;
 
@@ -31,11 +38,43 @@ public class DetailedVacancyPresenter extends MvpPresenter<DetailedVacancyView> 
 
     }
 
-    public void getVacancyById(Long id) {
+    public void getVacancyById(final Long id) {
 
         Log.e(TAG, "getVacancyById:   " + id);
 
-        mVacancyInteractor.getVacancyById(id)
+        mVacancyInteractor.getRequestResultBuffer()
+                .flatMap(new Function<List<Vacancy>, ObservableSource<Vacancy>>() {
+                    @Override
+                    public ObservableSource<Vacancy> apply(List<Vacancy> vacancies) throws Exception {
+                        return Observable.fromIterable(vacancies);
+                    }
+                })
+                .filter(new Predicate<Vacancy>() {
+                    @Override
+                    public boolean test(Vacancy vacancy) throws Exception {
+                        return Long.valueOf(vacancy.getId()).equals(id);
+                    }
+                })
+                .subscribe(new DisposableObserver<Vacancy>() {
+
+                    @Override
+                    public void onNext(Vacancy vacancy) {
+                        Log.e(TAG, "getVacancyByIdOnSuccess:   " + vacancy);
+                        getViewState().showDetails(vacancy);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError:   " + e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+        /*mVacancyInteractor.getVacancyById(id)
                 .subscribe(new DisposableSingleObserver<Vacancy>() {
                     @Override
                     public void onSuccess(Vacancy vacancy) {
@@ -49,6 +88,6 @@ public class DetailedVacancyPresenter extends MvpPresenter<DetailedVacancyView> 
                         Log.e(TAG, "onError:   " + e);
 
                     }
-                });
+                });*/
     }
 }

@@ -33,6 +33,7 @@ public class ModelMapper {
                 list.get(i).setMinSalary(valueOf(vacancyList.get(i).getMinSalary()));
                 list.get(i).setMaxSalary(valueOf(vacancyList.get(i).getMaxSalary()));
                 list.get(i).setSalary(valueOf(vacancyList.get(i).getSalary()));
+                list.get(i).setFavorite(vacancyList.get(i).isFavorite());
             }
             return list;
         }
@@ -62,6 +63,7 @@ public class ModelMapper {
                 list.get(i).setMinSalary(vacancyList.get(i).getMinSalary());
                 list.get(i).setMaxSalary(vacancyList.get(i).getMaxSalary());
                 list.get(i).setSalary(vacancyList.get(i).getSalary());
+                list.get(i).setFavorite(vacancyList.get(i).isFavorite());
                 Log.e(TAG,"end" + i);
 
             }
@@ -81,7 +83,24 @@ public class ModelMapper {
         serverModel.setMinSalary(valueOf(vacancy.getMinSalary()));
         serverModel.setMaxSalary(valueOf(vacancy.getMaxSalary()));
         serverModel.setSalary(valueOf(vacancy.getSalary()));
+        serverModel.setFavorite(vacancy.isFavorite());
 
         return serverModel;
+    }
+
+    public static com.bereg.vacancyviewerapp.model.data.room.entity.Vacancy mapServerToDatabaseModel(Vacancy vacancy) {
+
+        com.bereg.vacancyviewerapp.model.data.room.entity.Vacancy databaseModel = new com.bereg.vacancyviewerapp.model.data.room.entity.Vacancy();
+
+        databaseModel.setId(Long.valueOf(vacancy.getId()));
+        databaseModel.setAddDate(vacancy.getAddDate());
+        databaseModel.setHeader(vacancy.getHeader());
+        databaseModel.setDescription(vacancy.getDescription());
+        databaseModel.setMinSalary(vacancy.getMinSalary());
+        databaseModel.setMaxSalary(vacancy.getMaxSalary());
+        databaseModel.setSalary(vacancy.getSalary());
+        databaseModel.setFavorite(vacancy.isFavorite());
+
+        return databaseModel;
     }
 }

@@ -43,7 +43,7 @@ public class ServerRepository {
         mRequestParameterModel = requestParameterModel;
     }
 
-    public Single<List<Vacancy>> getFromServer(/*final DisposableSingleObserver<List<Vacancy>> disposableSingleObserver*/) {
+    public Single<List<Vacancy>> getFromServer() {
 
         return mNgsApi.getShortObservableData(ID, HEADER, mRequestParameterModel.getString(), MIN_SALARY, MAX_SALARY, mRequestParameterModel.getMinSalary())
                 .subscribeOn(Schedulers.io())

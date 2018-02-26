@@ -12,7 +12,11 @@ import com.bereg.vacancyviewerapp.presentation.view.SearchView;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.SingleObserver;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DefaultObserver;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import ru.terrakok.cicerone.Router;
 
@@ -40,26 +44,43 @@ public class SearchPresenter extends MvpPresenter<SearchView> {
     public void onViewCreated(Observable<CharSequence> keywordsObservable,
                               Observable<Boolean> booleanObservable,
                               Observable<CharSequence> minSalaryObservable,
-                              Observable<CharSequence> cityObservable,
-                              Observable<Boolean> saveResultsObservable) {
+                              Observable<CharSequence> cityObservable) {
 
         mVacancyInteractor.requestDataHandle(
                 keywordsObservable,
                 booleanObservable,
                 minSalaryObservable,
-                cityObservable,
-                saveResultsObservable,
+                cityObservable);/*,
                 new DisposableSingleObserver<List<Vacancy>>() {
             @Override
             public void onSuccess(List<Vacancy> vacancies) {
-                getViewState().showShortSearchResult(vacancies.size());
-            }
+                Log.e(TAG, "mVacancyInteractor.getRequestResultBufferOnNext" + vacancies.size());
+                getViewState().showShortSearchResult(vacancies.size());            }
 
             @Override
             public void onError(Throwable e) {
-
+                Log.e(TAG, "mVacancyInteractor.getRequestResultBufferOnError" + e);
             }
-        });
+        });*/
+
+        mVacancyInteractor.getRequestResultBuffer()
+                .subscribe(new DefaultObserver<List<Vacancy>>() {
+                    @Override
+                    public void onNext(List<Vacancy> vacancies) {
+                        Log.e(TAG, "mVacancyInteractor.getRequestResultBufferOnNext" + vacancies.size());
+                        getViewState().showShortSearchResult(vacancies.size());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "mVacancyInteractor.getRequestResultBufferOnError" + e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.e(TAG, "mVacancyInteractor.getRequestResultBufferOnComplete");
+                    }
+                });
     }
 
     public void onShowButtonPressed() {

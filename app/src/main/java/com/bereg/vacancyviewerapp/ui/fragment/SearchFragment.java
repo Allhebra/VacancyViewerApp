@@ -78,8 +78,6 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView {
     Spinner periodSpinner;
     @BindView(R.id.tv_short_result)
     TextView shortSearchResultTextView;
-    @BindView(R.id.chk_save_search_results)
-    CheckBox saveResultsCheckBox;
     @BindView(R.id.btn_fragment_search_show_results)
     Button showResultsButton;
 
@@ -136,8 +134,7 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView {
                 textChanges(keywords),
                 checkedChanges(radioButton),
                 textChanges(minSalary),
-                textChanges(city),
-                checkedChanges(saveResultsCheckBox));
+                textChanges(city));
 
         //Log.e(TAG, "onViewCreated");
     }

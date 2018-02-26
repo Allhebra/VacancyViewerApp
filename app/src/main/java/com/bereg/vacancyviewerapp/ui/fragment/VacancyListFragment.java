@@ -22,9 +22,12 @@ import com.bereg.vacancyviewerapp.presentation.presenter.VacancyListPresenter;
 import com.bereg.vacancyviewerapp.presentation.view.VacancyListView;
 import com.bereg.vacancyviewerapp.ui.adapters.RecyclerAdapter;
 
+import org.reactivestreams.Subscription;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import ru.terrakok.cicerone.Router;
 
@@ -87,19 +90,27 @@ public class VacancyListFragment extends MvpAppCompatFragment implements Vacancy
         mRecyclerAdapter = new RecyclerAdapter(vacancies);
         mRecyclerView.setAdapter(mRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerAdapter.notifyDataSetChanged();
 
         RecyclerAdapter.getViewClickedObservable()
-                .subscribe(new Consumer<Integer>() {
+                .subscribe(new Consumer<Vacancy>() {
                     @Override
-                    public void accept(Integer integer) throws Exception {
+                    public void accept(Vacancy integer) throws Exception {
                         Log.e(TAG, "RecyclerAdapter.getViewClickedObservable:   " + integer);
                         mVacancyListPresenter.showDetail(integer);
-                        //mRouter.navigateTo(Screens.DETAILED_VACANCY_SCREEN);
                     }
                 });
         //Log.e(TAG, "onViewCreated");
         //ButterKnife.bind(this, view);
+
+        /*Disposable disposable = */RecyclerAdapter.getViewCheckedChangesObservable()
+                .subscribe(new Consumer<Vacancy>() {
+                    @Override
+                    public void accept(Vacancy vacancy) throws Exception {
+                        Log.e(TAG, "RecyclerAdapter.getViewCheckedChangesObservable:   " + vacancy);
+                        mVacancyListPresenter.onVacancyChanged(vacancy);
+                    }
+                });
+        //disposable.dispose();
     }
 
     @Override

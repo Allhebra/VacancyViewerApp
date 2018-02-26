@@ -3,6 +3,7 @@ package com.bereg.vacancyviewerapp.model.data.room.dao;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
@@ -27,8 +28,8 @@ public interface VacancyDao {
     @Query("SELECT * FROM vacancy WHERE id = :id")
     Single<Vacancy> getById(long id);
 
-    @Insert
-    void insert(Vacancy vacancy);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    Long insert(Vacancy vacancy);
 
     @Insert
     List<Long> insert(List<Vacancy> list);
@@ -37,5 +38,5 @@ public interface VacancyDao {
     void update(Vacancy vacancy);
 
     @Delete
-    void delete(Vacancy vacancy);
+    int delete(Vacancy vacancy);
 }

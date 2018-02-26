@@ -29,6 +29,8 @@ public class Vacancy {
 
     private String salary;
 
+    private boolean favorite;
+
     public long getId() {
         return id;
     }
@@ -83,5 +85,13 @@ public class Vacancy {
 
     public void setSalary(String salary) {
         this.salary = salary;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 }

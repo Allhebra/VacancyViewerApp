@@ -86,22 +86,39 @@ public class RoomRepository {
     }
 
     public Completable saveToDatabase(final List<Vacancy> vacancyList) {
-        Log.e(TAG,"saveToDatabase" + vacancyList.size());
-        //List<Long> list;
 
+        Log.e(TAG,"saveToDatabase" + vacancyList.size());
         return Completable.fromCallable(new Callable<List>() {
             @Override
             public List<Long> call() throws Exception {
                 return vacancyDao.insert(ModelMapper.mapAllServerToDatabaseModel(vacancyList));
             }
         });
+    }
 
-        //list = vacancyDao.insert(ModelMapper.mapServerToDatabaseModel(vacancyList));
+    public Completable saveToDatabase(final Vacancy vacancy){
 
-        /*if (list.size() == vacancyList.size()) {
-            Log.e(TAG,"databaseSuccess");
-        }else {
-            Log.e(TAG, "databaseFailure");
-        }*/
+        Log.e(TAG,"saveToDatabase:   " + vacancy);
+        return Completable.fromCallable(new Callable<Long>() {
+            @Override
+            public Long call() throws Exception {
+                return vacancyDao.insert(ModelMapper.mapServerToDatabaseModel(vacancy));
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+    
+    public Completable deleteFromDatabase(final Vacancy vacancy) {
+
+        Log.e(TAG,"deleteFromDatabase:   " + vacancy);
+        return Completable.fromCallable(new Callable<Integer>() {
+            @Override
+            public Integer call() throws Exception {
+                return vacancyDao.delete(ModelMapper.mapServerToDatabaseModel(vacancy));
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }
