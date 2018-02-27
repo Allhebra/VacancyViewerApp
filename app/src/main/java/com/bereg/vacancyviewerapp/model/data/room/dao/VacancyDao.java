@@ -11,8 +11,6 @@ import com.bereg.vacancyviewerapp.model.data.room.entity.Vacancy;
 
 import java.util.List;
 
-import io.reactivex.Completable;
-import io.reactivex.Observable;
 import io.reactivex.Single;
 
 /**
@@ -31,7 +29,7 @@ public interface VacancyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insert(Vacancy vacancy);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     List<Long> insert(List<Vacancy> list);
 
     @Update

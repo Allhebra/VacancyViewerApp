@@ -23,7 +23,6 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.subjects.BehaviorSubject;
 
 import static com.bereg.vacancyviewerapp.Constants.*;
-import static com.bereg.vacancyviewerapp.model.data.ModelMapper.mapServerToDatabaseModel;
 
 /**
  * Created by 1 on 08.01.2018.
@@ -151,6 +150,11 @@ public class VacancyInteractor {
 
         Log.e(TAG, "getVacancyById:   " + id);
         return mRoomRepository.getFromDatabaseById(id);
+    }
+
+    public Single<List<Long>> saveVacancies(List<Vacancy> vacancyList) {
+
+        return mRoomRepository.saveToDatabase(vacancyList);
     }
 
     public Completable changeVacancy(Vacancy vacancy) {

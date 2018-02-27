@@ -13,12 +13,15 @@ import com.bereg.vacancyviewerapp.ui.adapters.RecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.CompletableObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DefaultObserver;
 import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 import ru.terrakok.cicerone.Router;
 
 /**
@@ -67,10 +70,26 @@ public class VacancyListPresenter extends MvpPresenter<VacancyListView> {
                 });
     }
 
-    public void showDetail(Vacancy integer) {
+    public void showDetail(Vacancy vacancy) {
 
-        Log.e(TAG, "showDetail:   " + integer);
-        mRouter.navigateTo(Screens.DETAILED_VACANCY_SCREEN, Long.valueOf(integer.getId()));
+        Log.e(TAG, "showDetail:   " + vacancy);
+        mRouter.navigateTo(Screens.DETAILED_VACANCY_SCREEN, Long.valueOf(vacancy.getId()));
+    }
+
+    public void saveSearchResult(List<Vacancy> vacancyList) {
+
+        mVacancyInteractor.saveVacancies(vacancyList)
+                .subscribe(new DisposableSingleObserver<List<Long>>() {
+                    @Override
+                    public void onSuccess(List<Long> list) {
+                        mRouter.showSystemMessage(String.format(Locale.ENGLISH,"search results saved! %d", list.size()));
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRouter.showSystemMessage(e.getMessage());
+                    }
+                });
     }
 
     public void onVacancyChanged(final Vacancy vacancy) {
@@ -79,7 +98,6 @@ public class VacancyListPresenter extends MvpPresenter<VacancyListView> {
         final boolean isFavorite = vacancy.isFavorite();
         final int index = mVacancies.indexOf(vacancy);
         mVacancies.get(index).setFavorite(isFavorite);
-        //vacancy.setFavorite(!isFavorite);
         mVacancyInteractor.changeVacancy(vacancy)
                 .subscribe(new DisposableCompletableObserver() {
                     @Override

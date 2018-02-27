@@ -9,7 +9,9 @@
     <string name="city">Введите город:</string>
     <string name="save_search_results">Сохранить результаты поиска в телефоне</string>
     <string name="fragment_search_show_results">Показать вакансии</string>
+    <string name="fragment_search_short_result_template">По вашему запросу найдено %d вакансий</string>
     <string name="chk_favorite">Добавить в избранное</string>
+    <string name="menu_save_search_result">Сохранить результат поиска</string>
 
     <string-array name="period_array">
         <item>today</item>

@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -32,11 +31,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import io.reactivex.functions.Consumer;
 import ru.terrakok.cicerone.Router;
 
-import static com.jakewharton.rxbinding2.widget.RxCheckedTextView.check;
-import static com.jakewharton.rxbinding2.widget.RxCompoundButton.checked;
 import static com.jakewharton.rxbinding2.widget.RxTextView.textChanges;
 import static com.jakewharton.rxbinding2.widget.RxCompoundButton.checkedChanges;
 
@@ -147,6 +143,6 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView {
     @Override
     public void showShortSearchResult(int numberOfVacancies) {
 
-        shortSearchResultTextView.setText("По вашему запросу найдено " + numberOfVacancies + " вакансий");
+        shortSearchResultTextView.setText(getString(R.string.fragment_search_short_result_template, numberOfVacancies));
     }
 }

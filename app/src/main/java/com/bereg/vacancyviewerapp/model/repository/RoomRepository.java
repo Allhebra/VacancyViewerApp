@@ -2,36 +2,24 @@ package com.bereg.vacancyviewerapp.model.repository;
 
 import android.util.Log;
 
-import com.bereg.vacancyviewerapp.Util;
 import com.bereg.vacancyviewerapp.model.RequestParameterModel;
 import com.bereg.vacancyviewerapp.model.Vacancy;
-import com.bereg.vacancyviewerapp.model.VacancyList;
 import com.bereg.vacancyviewerapp.model.data.ModelMapper;
 import com.bereg.vacancyviewerapp.model.data.room.AppDatabase;
 import com.bereg.vacancyviewerapp.model.data.room.dao.VacancyDao;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
-import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
-import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
 
-import static com.bereg.vacancyviewerapp.Constants.HEADER;
-import static com.bereg.vacancyviewerapp.Constants.ID;
-import static com.bereg.vacancyviewerapp.Constants.MAX_SALARY;
-import static com.bereg.vacancyviewerapp.Constants.MIN_SALARY;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by 1 on 11.02.2018.
@@ -85,15 +73,17 @@ public class RoomRepository {
 
     }
 
-    public Completable saveToDatabase(final List<Vacancy> vacancyList) {
+    public Single<List<Long>> saveToDatabase(final List<Vacancy> vacancyList) {
 
         Log.e(TAG,"saveToDatabase" + vacancyList.size());
-        return Completable.fromCallable(new Callable<List>() {
+        return Single.fromCallable(new Callable<List<Long>>() {
             @Override
             public List<Long> call() throws Exception {
                 return vacancyDao.insert(ModelMapper.mapAllServerToDatabaseModel(vacancyList));
             }
-        });
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Completable saveToDatabase(final Vacancy vacancy){

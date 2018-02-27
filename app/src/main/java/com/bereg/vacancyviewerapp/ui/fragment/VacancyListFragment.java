@@ -7,6 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,19 +18,15 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bereg.vacancyviewerapp.App;
 import com.bereg.vacancyviewerapp.R;
-import com.bereg.vacancyviewerapp.Screens;
 import com.bereg.vacancyviewerapp.model.Vacancy;
 import com.bereg.vacancyviewerapp.model.interactor.VacancyInteractor;
 import com.bereg.vacancyviewerapp.presentation.presenter.VacancyListPresenter;
 import com.bereg.vacancyviewerapp.presentation.view.VacancyListView;
 import com.bereg.vacancyviewerapp.ui.adapters.RecyclerAdapter;
 
-import org.reactivestreams.Subscription;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import ru.terrakok.cicerone.Router;
 
@@ -70,6 +69,7 @@ public class VacancyListFragment extends MvpAppCompatFragment implements Vacancy
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
     }
 
@@ -79,6 +79,21 @@ public class VacancyListFragment extends MvpAppCompatFragment implements Vacancy
 
         //Log.e(TAG, "onCreateView");
         return inflater.inflate(R.layout.fragment_vacancy_list, container, false);
+    }
+
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_vacancy_list_fragment, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+
+        switch (menuItem.getItemId()) {
+            case R.id.save_search_result_item:
+                mVacancyListPresenter.saveSearchResult(vacancies);
+        }
+        return true;
     }
 
     @Override
@@ -102,7 +117,7 @@ public class VacancyListFragment extends MvpAppCompatFragment implements Vacancy
         //Log.e(TAG, "onViewCreated");
         //ButterKnife.bind(this, view);
 
-        /*Disposable disposable = */RecyclerAdapter.getViewCheckedChangesObservable()
+        RecyclerAdapter.getViewCheckedChangesObservable()
                 .subscribe(new Consumer<Vacancy>() {
                     @Override
                     public void accept(Vacancy vacancy) throws Exception {
@@ -110,7 +125,6 @@ public class VacancyListFragment extends MvpAppCompatFragment implements Vacancy
                         mVacancyListPresenter.onVacancyChanged(vacancy);
                     }
                 });
-        //disposable.dispose();
     }
 
     @Override
