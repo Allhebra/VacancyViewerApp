@@ -17,7 +17,7 @@ public class Util {
 
     public static List<Vacancy> searchOccurence(List<Vacancy> list, String keywords) {
 
-        Log.e(TAG, "Util");
+        //Log.e(TAG, "Util");
         if (keywords.equals("")) return list;
         Iterator<Vacancy> iterator = list.iterator();
 
@@ -25,7 +25,7 @@ public class Util {
             Vacancy vacancy = iterator.next();
             if (!vacancy.getHeader().contains(keywords) && !vacancy.getDescription().contains(keywords)) iterator.remove();
         }
-        Log.e(TAG, "" + list.size());
+        //Log.e(TAG, "" + list.size());
         return list;
     }
 }

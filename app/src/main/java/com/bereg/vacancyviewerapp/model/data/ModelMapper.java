@@ -44,17 +44,17 @@ public class ModelMapper {
         List<com.bereg.vacancyviewerapp.model.data.room.entity.Vacancy> list = new ArrayList<>();
 
         if (vacancyList.isEmpty()) {
-            Log.e(TAG,"if");
+            //Log.e(TAG,"if");
             return list;
         } else {
-            Log.e(TAG,"else");
+            //Log.e(TAG,"else");
             for (int i = 0; i < vacancyList.size(); i++) {
 
                 list.add(new com.bereg.vacancyviewerapp.model.data.room.entity.Vacancy());
 
-                Log.e(TAG,"for" + i);
-                Log.e(TAG,"for" + list.get(i));
-                Log.e(TAG,"for" + vacancyList.get(i));
+                //Log.e(TAG,"for" + i);
+                //Log.e(TAG,"for" + list.get(i));
+                //Log.e(TAG,"for" + vacancyList.get(i));
 
                 list.get(i).setId(Long.valueOf(vacancyList.get(i).getId()));
                 list.get(i).setAddDate(vacancyList.get(i).getAddDate());
@@ -64,10 +64,10 @@ public class ModelMapper {
                 list.get(i).setMaxSalary(vacancyList.get(i).getMaxSalary());
                 list.get(i).setSalary(vacancyList.get(i).getSalary());
                 list.get(i).setFavorite(vacancyList.get(i).isFavorite());
-                Log.e(TAG,"end" + i);
+                //Log.e(TAG,"end" + i);
 
             }
-            Log.e(TAG,"return");
+            //Log.e(TAG,"return");
             return list;
         }
     }

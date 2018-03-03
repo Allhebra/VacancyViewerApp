@@ -67,7 +67,7 @@ public class DetailedVacancyFragment extends MvpAppCompatFragment implements Det
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Toast.makeText(getContext(), "onAttach", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "DetailOnAttach", Toast.LENGTH_SHORT).show();
 
         /*try {
             someEventListener = (onSomeEventListener) context;
@@ -79,7 +79,7 @@ public class DetailedVacancyFragment extends MvpAppCompatFragment implements Det
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toast.makeText(getContext(), "onCreate", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "DetailOnCreate", Toast.LENGTH_SHORT).show();
     }
 
     @Nullable
@@ -89,7 +89,7 @@ public class DetailedVacancyFragment extends MvpAppCompatFragment implements Det
         View view = inflater.inflate(R.layout.fragment_detail_vacancy, container, false);
         ButterKnife.bind(this, view);
         Log.e(TAG, "onCreateView");
-        Toast.makeText(getContext(), "onCreateView", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "DetailOnCreateView", Toast.LENGTH_SHORT).show();
         return view;
     }
 

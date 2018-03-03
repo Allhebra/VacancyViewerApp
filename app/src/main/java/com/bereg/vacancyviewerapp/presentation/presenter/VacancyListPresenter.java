@@ -40,19 +40,20 @@ public class VacancyListPresenter extends MvpPresenter<VacancyListView> {
 
         mVacancyInteractor = vacancyInteractor;
         mRouter = router;
-        getVacancyList();
-        Log.e(TAG, "showVacancyListInPresenter");
+        //getVacancyList();
+        Log.e(TAG, "constructor");
     }
 
-    private void getVacancyList() {
+    protected void /*getVacancyList*/onFirstViewAttach() {
 
-        Log.e(TAG, "getVacancyListInPresenter");
+        super.onFirstViewAttach();
+        Log.e(TAG, "onFirstViewAttach:   " + this);
 
         mVacancyInteractor.getRequestResultBuffer()
                 .subscribe(new DefaultObserver<List<Vacancy>>() {
                     @Override
                     public void onNext(List<Vacancy> vacancies) {
-                        Log.e(TAG, "mVacancyInteractor.getRequestResultBufferOnNext" + vacancies.size());
+                        Log.e(TAG, "mVacancyInteractor.getRequestResultBufferOnNext:   " + vacancies.size());
                         mVacancies.clear();
                         mVacancies.addAll(0, vacancies);
                         getViewState().showVacancyList(vacancies);
@@ -60,7 +61,7 @@ public class VacancyListPresenter extends MvpPresenter<VacancyListView> {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "mVacancyInteractor.getRequestResultBufferOnError" + e);
+                        Log.e(TAG, "mVacancyInteractor.getRequestResultBufferOnError:   " + e);
                     }
 
                     @Override
@@ -94,7 +95,7 @@ public class VacancyListPresenter extends MvpPresenter<VacancyListView> {
 
     public void onVacancyChanged(final Vacancy vacancy) {
 
-        Log.e(TAG, "onVacancyChangedFavorite:   " + vacancy);
+        Log.e(TAG, "onVacancyChanged:   " + vacancy);
         final boolean isFavorite = vacancy.isFavorite();
         final int index = mVacancies.indexOf(vacancy);
         mVacancies.get(index).setFavorite(isFavorite);
@@ -103,13 +104,13 @@ public class VacancyListPresenter extends MvpPresenter<VacancyListView> {
                     @Override
                     public void onComplete() {
                         mRouter.showSystemMessage("запись изменена!");
-                        Log.e(TAG, "onVacancyChangedFavoriteOnComplete:   " + isFavorite + index);
+                        Log.e(TAG, "onVacancyChanged OnComplete:   " + isFavorite + index);
                         getViewState().showVacancyList(mVacancies);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "onVacancyChangedFavorite:   " + e);
+                        Log.e(TAG, "onVacancyChanged:   " + e);
                         mRouter.showSystemMessage(e.getMessage());
                     }
                 });

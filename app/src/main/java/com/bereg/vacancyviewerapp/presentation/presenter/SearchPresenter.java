@@ -12,12 +12,8 @@ import com.bereg.vacancyviewerapp.presentation.view.SearchView;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.SingleObserver;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DefaultObserver;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.observers.DisposableSingleObserver;
+
 import ru.terrakok.cicerone.Router;
 
 /**
@@ -31,14 +27,27 @@ public class SearchPresenter extends MvpPresenter<SearchView> {
 
     public VacancyInteractor mVacancyInteractor;
     private Router mRouter;
+    private Observable<CharSequence> keywordsObservable;
+    private Observable<Boolean> booleanObservable;
+    private Observable<CharSequence> minSalaryObservable;
+    private Observable<CharSequence> cityObservable;
 
     public SearchPresenter(VacancyInteractor vacancyInteractor, Router router) {
 
         mVacancyInteractor = vacancyInteractor;
         mRouter = router;
+        Log.e(TAG, "constructor:   " + mVacancyInteractor + mRouter);
+    }
 
-        Log.e(TAG, "SearchPresenterCreated");
-        Log.e(TAG, "interactor: " + String.valueOf(mVacancyInteractor));
+    @Override
+    protected void onFirstViewAttach() {
+
+        //Log.e(TAG, "onFirstViewAttach");
+        mVacancyInteractor.requestDataHandle(
+                keywordsObservable,
+                booleanObservable,
+                minSalaryObservable,
+                cityObservable);
     }
 
     public void onViewCreated(Observable<CharSequence> keywordsObservable,
@@ -46,22 +55,17 @@ public class SearchPresenter extends MvpPresenter<SearchView> {
                               Observable<CharSequence> minSalaryObservable,
                               Observable<CharSequence> cityObservable) {
 
-        mVacancyInteractor.requestDataHandle(
+        //Log.e(TAG, "onViewCreated");
+        this.keywordsObservable = keywordsObservable;
+        this.booleanObservable= booleanObservable;
+        this.minSalaryObservable = minSalaryObservable;
+        this.cityObservable = cityObservable;
+
+        /*mVacancyInteractor.requestDataHandle(
                 keywordsObservable,
                 booleanObservable,
                 minSalaryObservable,
-                cityObservable);/*,
-                new DisposableSingleObserver<List<Vacancy>>() {
-            @Override
-            public void onSuccess(List<Vacancy> vacancies) {
-                Log.e(TAG, "mVacancyInteractor.getRequestResultBufferOnNext" + vacancies.size());
-                getViewState().showShortSearchResult(vacancies.size());            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.e(TAG, "mVacancyInteractor.getRequestResultBufferOnError" + e);
-            }
-        });*/
+                cityObservable);*/
 
         mVacancyInteractor.getRequestResultBuffer()
                 .subscribe(new DefaultObserver<List<Vacancy>>() {

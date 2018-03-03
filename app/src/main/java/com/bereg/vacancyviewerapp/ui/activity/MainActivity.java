@@ -79,9 +79,9 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     protected void onResume() {
         super.onResume();
         App.getInstance().getNavigatorHolder().setNavigator(navigator);
-        mMainPresenter.showSearchForm();
+        //mMainPresenter.showSearchForm();
         Log.e(TAG, "onResume");
-        Toast.makeText(MainActivity.this, "onResume", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, "ActivityOnResume", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -95,7 +95,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     @Override
     public void showSearchForm() {
 
-        Toast.makeText(MainActivity.this, "showSearchForm", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, "ActivityShowSearchForm", Toast.LENGTH_SHORT).show();
         Log.e(TAG, "showSearchForm");
     }
 

@@ -45,7 +45,7 @@ public class VacancyInteractor {
         mRequestParameterModel = requestParameterModel;
         mRoomRepository = roomRepository;
         mServerRepository = serverRepository;
-        Log.e(TAG, "constructorInteractor");
+        Log.e(TAG, "constructor:");
     }
 
     public void requestDataHandle(Observable<CharSequence> keywordsObservable,
@@ -66,12 +66,12 @@ public class VacancyInteractor {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.e(TAG, "keywordsObservable" + e);
                     }
 
                     @Override
                     public void onComplete() {
-
+                        Log.e(TAG, "keywordsObservable");
                     }
                 });
 

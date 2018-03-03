@@ -24,7 +24,8 @@ public class MainPresenter extends MvpPresenter<MainView> {
         mRouter = router;
     }
 
-    public void showSearchForm() {
+    protected void /*showSearchForm*/onFirstViewAttach() {
+        super.onFirstViewAttach();
         //getViewState().showSearchForm();
         mRouter.navigateTo(Screens.SEARCH_SCREEN);
         Log.e(TAG, "showSearchForm");

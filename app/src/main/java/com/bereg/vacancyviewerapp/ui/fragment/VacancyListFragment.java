@@ -27,7 +27,12 @@ import com.bereg.vacancyviewerapp.ui.adapters.RecyclerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 import ru.terrakok.cicerone.Router;
 
 /**
@@ -50,6 +55,7 @@ public class VacancyListFragment extends MvpAppCompatFragment implements Vacancy
 
     private List<Vacancy> vacancies = new ArrayList<>();
     private RecyclerAdapter mRecyclerAdapter;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public VacancyListFragment() {
     }
@@ -106,25 +112,31 @@ public class VacancyListFragment extends MvpAppCompatFragment implements Vacancy
         mRecyclerView.setAdapter(mRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        RecyclerAdapter.getViewClickedObservable()
+        compositeDisposable.add(RecyclerAdapter.getViewClickedObservable()
                 .subscribe(new Consumer<Vacancy>() {
                     @Override
-                    public void accept(Vacancy integer) throws Exception {
-                        Log.e(TAG, "RecyclerAdapter.getViewClickedObservable:   " + integer);
-                        mVacancyListPresenter.showDetail(integer);
+                    public void accept(Vacancy vacancy) throws Exception {
+                        Log.e(TAG, "RecyclerAdapter.getViewClickedObservable:   " + vacancy);
+                        mVacancyListPresenter.showDetail(vacancy);
                     }
-                });
+                }));
         //Log.e(TAG, "onViewCreated");
         //ButterKnife.bind(this, view);
 
-        RecyclerAdapter.getViewCheckedChangesObservable()
+        compositeDisposable.add(RecyclerAdapter.getViewCheckedChangesObservable()
                 .subscribe(new Consumer<Vacancy>() {
                     @Override
                     public void accept(Vacancy vacancy) throws Exception {
                         Log.e(TAG, "RecyclerAdapter.getViewCheckedChangesObservable:   " + vacancy);
                         mVacancyListPresenter.onVacancyChanged(vacancy);
                     }
-                });
+                }));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (!compositeDisposable.isDisposed()) compositeDisposable.clear();
     }
 
     @Override

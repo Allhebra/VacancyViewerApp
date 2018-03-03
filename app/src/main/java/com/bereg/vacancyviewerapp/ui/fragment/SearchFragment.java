@@ -84,14 +84,15 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView {
         Bundle args = new Bundle();
         SearchFragment fragment = new SearchFragment();
         fragment.setArguments(args);
-        //Log.e(TAG, "getInstance");
+        Log.e(TAG, "getInstance");
         return fragment;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Toast.makeText(getContext(), "onAttach", Toast.LENGTH_SHORT).show();
+        Log.e(TAG, "onAttach");
+        Toast.makeText(getContext(), "SearchFragOnAttach", Toast.LENGTH_SHORT).show();
 
         /*try {
             someEventListener = (onSomeEventListener) context;
@@ -103,7 +104,8 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toast.makeText(getContext(), "onCreate", Toast.LENGTH_SHORT).show();
+        Log.e(TAG, "onCreate");
+        Toast.makeText(getContext(), "SearchFragOnCreate", Toast.LENGTH_SHORT).show();
     }
 
     @Nullable
@@ -113,7 +115,7 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         ButterKnife.bind(this, view);
         Log.e(TAG, "onCreateView");
-        Toast.makeText(getContext(), "onCreateView", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "SearchFragOnCreateView", Toast.LENGTH_SHORT).show();
         return view;
     }
 
@@ -131,8 +133,6 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchView {
                 checkedChanges(radioButton),
                 textChanges(minSalary),
                 textChanges(city));
-
-        //Log.e(TAG, "onViewCreated");
     }
 
     @OnClick(R.id.btn_fragment_search_show_results)

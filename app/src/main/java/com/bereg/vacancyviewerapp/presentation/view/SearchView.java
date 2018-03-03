@@ -15,9 +15,4 @@ public interface SearchView extends MvpView {
 
     @StateStrategyType(SkipStrategy.class)
     void showShortSearchResult(int numberOfVacancies);
-
-    //void showSearchForm();
-
-    /*@StateStrategyType(SkipStrategy.class)
-    void showVacancyList();*/
 }

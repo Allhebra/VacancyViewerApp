@@ -34,7 +34,7 @@ public class DetailedVacancyPresenter extends MvpPresenter<DetailedVacancyView> 
 
         mVacancyInteractor = vacancyInteractor;
         mRouter = router;
-        Log.e(TAG, "DetailedVacancyPresenter:   " + vacancyInteractor + router);
+        Log.e(TAG, "constructor:   " + vacancyInteractor + router);
 
     }
 
@@ -59,35 +59,19 @@ public class DetailedVacancyPresenter extends MvpPresenter<DetailedVacancyView> 
 
                     @Override
                     public void onNext(Vacancy vacancy) {
-                        Log.e(TAG, "getVacancyByIdOnSuccess:   " + vacancy);
+                        Log.e(TAG, "mVacancyInteractor.getRequestResultBuffer:   " + vacancy);
                         getViewState().showDetails(vacancy);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "onError:   " + e);
+                        Log.e(TAG, "mVacancyInteractor.getRequestResultBufferOnError:   " + e);
                     }
 
                     @Override
                     public void onComplete() {
-
+                        Log.e(TAG, "mVacancyInteractor.getRequestResultBufferOnComplete:");
                     }
                 });
-
-        /*mVacancyInteractor.getVacancyById(id)
-                .subscribe(new DisposableSingleObserver<Vacancy>() {
-                    @Override
-                    public void onSuccess(Vacancy vacancy) {
-
-                        Log.e(TAG, "getVacancyByIdOnSuccess:   " + vacancy);
-                        getViewState().showDetails(vacancy);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError:   " + e);
-
-                    }
-                });*/
     }
 }

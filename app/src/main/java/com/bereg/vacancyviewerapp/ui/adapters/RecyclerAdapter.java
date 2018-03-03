@@ -18,6 +18,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 
 /**
@@ -97,15 +98,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public void bind(final Vacancy vacancy, final int position) {
 
             mVacancy = vacancy;
-            Log.e(TAG, "bind   :   " + vacancy + vacancy.isFavorite() + "onPos   " + position);
+            //Log.e(TAG, "bind   :   " + vacancy + vacancy.isFavorite() + "onPos   " + position);
             headerTextView.setText(vacancy.getHeader());
             addDateTextView.setText(vacancy.getAddDate());
             minSalaryTextView.setText(vacancy.getMinSalary());
             maxSalaryTextView.setText(vacancy.getMaxSalary());
             //contactTextView.setText(vacancy.getContact().getCity().getTitle());
-            Log.e(TAG, "bind111   :   " + favoriteCheckBox.isChecked());
+            //Log.e(TAG, "bind111   :   " + favoriteCheckBox.isChecked());
             favoriteCheckBox.setChecked((vacancy.isFavorite()));
-            Log.e(TAG, "bind222   :   " + favoriteCheckBox.isChecked());
+            //Log.e(TAG, "bind222   :   " + favoriteCheckBox.isChecked());
 
             clicksObservable
                     .map(new Function<Object, Vacancy>() {
@@ -127,7 +128,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         void setFavorite(Boolean aBoolean) {
             mVacancy.setFavorite(aBoolean);
-            Log.e(TAG, "aaa:   " + mVacancy + mVacancy.isFavorite());
+            Log.e(TAG, "setFavorite:   " + mVacancy + mVacancy.isFavorite());
             mViewCheckedChangesSubject.onNext(mVacancy);
         }
 
