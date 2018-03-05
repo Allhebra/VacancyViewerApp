@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">VacancyViewerApp</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="keywords_for_search">Введите ключевые слова для поиска:</string>
     <string name="search_description">Искать в подробном описании</string>
     <string name="period">Выберите период</string>
@@ -11,6 +10,7 @@
     <string name="fragment_search_show_results">Показать вакансии</string>
     <string name="fragment_search_short_result_template">По вашему запросу найдено %d вакансий</string>
     <string name="chk_favorite">Добавить в избранное</string>
+
     <string name="menu_save_search_result">Сохранить результат поиска</string>
 
     <string-array name="period_array">
@@ -19,6 +19,7 @@
         <item>week</item>
         <item>month</item>
     </string-array>
+
     <string name="title_activity_main2">Main2Activity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -26,6 +27,7 @@
 
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="menu_favorite">Избранное</string>
+    <string name="menu_saved_searches">Сохраненные поиски</string>
 
 </resources>
