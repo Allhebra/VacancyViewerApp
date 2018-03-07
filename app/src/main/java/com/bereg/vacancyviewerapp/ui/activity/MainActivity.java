@@ -1,8 +1,11 @@
 package com.bereg.vacancyviewerapp.ui.activity;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -18,13 +21,16 @@ import com.bereg.vacancyviewerapp.presentation.view.MainView;
 import com.bereg.vacancyviewerapp.ui.fragment.DetailedVacancyFragment;
 import com.bereg.vacancyviewerapp.ui.fragment.SearchFragment;
 import com.bereg.vacancyviewerapp.ui.fragment.VacancyListFragment;
+import com.jakewharton.rxbinding2.view.RxMenuItem;
 
 import butterknife.ButterKnife;
+import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DisposableSingleObserver;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.Router;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
-public class MainActivity extends MvpAppCompatActivity implements MainView {
+public class MainActivity extends MvpAppCompatActivity implements MainView, NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -97,6 +103,21 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
 
         Toast.makeText(MainActivity.this, "ActivityShowSearchForm", Toast.LENGTH_SHORT).show();
         Log.e(TAG, "showSearchForm");
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
+
+        RxMenuItem.clicks(item).subscribe(new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception{
+                switch (item.getItemId()) {
+                    case R.id.menu_favorite:
+                    mMainPresenter.onMenuFavoriteClicked();
+                }
+            }
+        });
+        return false;
     }
 
     /*@Override

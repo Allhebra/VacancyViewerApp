@@ -30,4 +30,9 @@ public class MainPresenter extends MvpPresenter<MainView> {
         mRouter.navigateTo(Screens.SEARCH_SCREEN);
         Log.e(TAG, "showSearchForm");
     }
+
+    public void onMenuFavoriteClicked() {
+
+
+    }
 }
